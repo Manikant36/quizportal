@@ -1,4 +1,4 @@
-/*package quizportal.quizportal.controller;
+package quizportal.quizportal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import quizportal.quizportal.SecurityConfig.JwtUtil;
+import quizportal.quizportal.Helper.UserNotFoundException;
+import quizportal.quizportal.SecurityConfig.JwtUtils;
 import quizportal.quizportal.model.JWTrequest;
 import quizportal.quizportal.model.JWTresponse;
-import quizportal.quizportal.service.impl.userSecurityServiceImpl;
+import quizportal.quizportal.service.impl.UserDetailsServiceImpl;
 
 @RestController
 public class AuthenticateController {
@@ -24,56 +25,47 @@ public class AuthenticateController {
     private AuthenticationManager authenticationManager; 
     
     @Autowired
-    private userSecurityServiceImpl uServiceImpl;
+    private UserDetailsServiceImpl uServiceImpl;
     
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtils jwtUtils;
 
 
     // Generate token
 
     @PostMapping("/generate-token")
-    public ResponseEntity<?> generateToken(@RequestBody JWTrequest jwtTrequest) throws Exception
-    {
+    public ResponseEntity<?> generateToken(@RequestBody JWTrequest jwtRequest) throws Exception {
 
         try {
-            
-            authenticate(jwtTrequest.getUserName(),jwtTrequest.getPassword());
 
-        } catch (UsernameNotFoundException e) {
-            
+            authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
+
+
+        } catch (final UsernameNotFoundException e) {
             e.printStackTrace();
-
-            throw new Exception("Username not found: "+e.getMessage());
+            throw new UserNotFoundException("User not found ");
         }
 
-        // Authenticate user
+        /////////////authenticate
 
-        UserDetails userdetails = this.uServiceImpl.loadUserByUsername(jwtTrequest.getUserName());
-
-        String generateTokenNew = this.jwtUtil.generateToken(userdetails);
-
-        return ResponseEntity.ok(new JWTresponse(generateTokenNew));
+        UserDetails userDetails = this.uServiceImpl.loadUserByUsername(jwtRequest.getUsername());
+        String token = this.jwtUtils.generateToken(userDetails);
+        return ResponseEntity.ok(new JWTresponse(token));
     }
 
-    // to Authenticate token
-    private void authenticate(String username,String password) throws Exception
-    {
+
+    private void authenticate(String username, String password) throws Exception {
 
         try {
-            
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         } catch (DisabledException e) {
-
-          
-           throw new Exception ("User Disabled : " +e.getMessage());
-        } catch(BadCredentialsException e)
-        {   
-            
-            throw new Exception("Invalid Credentials: " + e.getMessage());
+            throw new Exception("USER DISABLED " + e.getMessage());
+        } catch (BadCredentialsException e) {
+            throw new Exception("Invalid Credentials " + e.getMessage());
         }
-
     }
 
-}*/
+
+}

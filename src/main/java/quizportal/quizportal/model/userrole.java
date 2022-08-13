@@ -5,58 +5,43 @@ import javax.persistence.*;
 import javax.persistence.GeneratedValue;
 
 @Entity
-public class userrole {
-    
+public class UserRole {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userroleId;
+    private Long userRoleId;
+
+    //user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
     @ManyToOne
-    private userlogin user;
+    private Role role;
 
-    @ManyToOne
-    private role role;
-
-    public userrole(long userroleId, userlogin user, quizportal.quizportal.model.role role) {
-        this.userroleId = userroleId;
-        this.user = user;
-        this.role = role;
+    public UserRole() {
     }
 
-    public userrole() {
-        super();
+    public Long getUserRoleId() {
+        return userRoleId;
     }
 
-    public long getUserroleId() {
-        return userroleId;
+    public void setUserRoleId(Long userRoleId) {
+        this.userRoleId = userRoleId;
     }
 
-    public void setUserroleId(long userroleId) {
-        this.userroleId = userroleId;
-    }
-
-    public userlogin getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(userlogin user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(quizportal.quizportal.model.role roles) {
-        this.role = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "userrole [role=" + role + ", user=" + user + ", userroleId=" + userroleId + "]";
-    }
-    
-    
-    
-   
 }

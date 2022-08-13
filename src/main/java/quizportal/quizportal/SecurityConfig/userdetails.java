@@ -1,4 +1,4 @@
-package quizportal.quizportal.SecurityConfig;
+/*package quizportal.quizportal.SecurityConfig;
 
 import java.util.*;
 
@@ -71,4 +71,4 @@ public class userdetails implements UserDetails
         return true;
     }   
 
-}
+}*/

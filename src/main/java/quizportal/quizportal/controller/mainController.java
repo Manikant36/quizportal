@@ -1,46 +1,51 @@
 package quizportal.quizportal.controller;
 
-import java.util.*;
-
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import quizportal.quizportal.DAO.userloginrepo;
-import quizportal.quizportal.model.role;
-import quizportal.quizportal.model.userlogin;
-import quizportal.quizportal.model.userrole;
+import quizportal.quizportal.DAO.UserRepository;
+import quizportal.quizportal.model.Role;
+import quizportal.quizportal.model.User;
+import quizportal.quizportal.model.UserRole;
 import quizportal.quizportal.service.userService;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
+
 public class mainController {
 
     @Autowired  
     private userService uservice;
 
     @Autowired
-    private userloginrepo userrepo; 
-
+    private UserRepository userrepo; 
 
     @PostMapping("/")
-    public userlogin CreateUser(@RequestBody userlogin user) throws Exception{
+    public User CreateUser(@RequestBody User user) throws Exception{
 
-       Set<userrole> uroles=new HashSet<>();
+       Set<UserRole> uroles=new HashSet<>();
        
       
-		role roles=new role();
-        
-		roles.setRolename("Admin");
+		Role roles=new Role();
+        roles.setRoleId(44L);
+		roles.setRoleName("Admin");
         // roles.setRolename("Nonadmin");
 
 
-		userrole userrole = new userrole();
+		UserRole userrole = new UserRole();
 
 		userrole.setRole(roles);
 		userrole.setUser(user);
@@ -52,17 +57,17 @@ public class mainController {
     }
 
     @GetMapping("/getall")
-    public List<userlogin> getbyuserId(userlogin user){
+    public List<User> getbyuserId(User user){
 
-        List<userlogin> findAlluser = this.userrepo.findAll();
+        List<User> findAlluser = this.userrepo.findAll();
         return findAlluser;
         
     }
 
     @GetMapping("/getname/{username}")
-    public userlogin findbyuser(@PathVariable("username") String username){
+    public User findbyuser(@PathVariable("username") String username){
 
-        userlogin findByUsername = this.userrepo.findByUsername(username);
+        User findByUsername = this.userrepo.findByUsername(username);
 
         return findByUsername;
     }
@@ -75,11 +80,11 @@ public class mainController {
     }
 
     @PutMapping("/update/{Id}")
-    public userlogin updateById(@PathVariable("Id") Long Id){
+    public User updateById(@PathVariable("Id") Long Id){
 
-        userlogin userFind= this.userrepo.findById(Id).get();
+        User userFind= this.userrepo.findById(Id).get();
 
-       userlogin userupdate= this.userrepo.save(userFind);
+       User userupdate= this.userrepo.save(userFind);
         
         return userupdate;
     }

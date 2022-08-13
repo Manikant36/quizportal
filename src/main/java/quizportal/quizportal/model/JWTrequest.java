@@ -2,8 +2,8 @@ package quizportal.quizportal.model;
 
 public class JWTrequest {
 
-    String username;
-    String password;
+    private String username;
+    private String password;
 
     public JWTrequest(String username, String password) {
         this.username = username;
@@ -13,11 +13,11 @@ public class JWTrequest {
     public JWTrequest() {
     }
     
-    public String getUserName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

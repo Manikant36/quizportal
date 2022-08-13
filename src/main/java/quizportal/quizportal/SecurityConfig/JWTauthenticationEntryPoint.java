@@ -1,4 +1,4 @@
-/*package quizportal.quizportal.SecurityConfig;
+package quizportal.quizportal.SecurityConfig;
 
 import java.io.IOException;
 
@@ -10,17 +10,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-
 @Component
-public class JWTauthenticationEntryPoint implements AuthenticationEntryPoint
- {
-
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException, ServletException {
-     response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Unauthorized: Server");
-        
-    }
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized : Server");
+    } 
     
 }
-*/
+

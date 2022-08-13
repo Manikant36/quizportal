@@ -9,47 +9,48 @@ import javax.persistence.*;
 
 
 @Entity
-public class role {
+@Table(name = "roles")
+public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String rolename;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
-    private Set<userrole> userroles= new HashSet<>();
-    
-    public role(){
-        super();
-    }
-    public role(int id, String rolename, Set<userrole> userroles) {
-        this.id = id;
-        this.rolename = rolename;
-        this.userroles = userroles;
-    }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getRolename() {
-        return rolename;
-    }
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
-    }
-    public Set<userrole> getUserroles() {
-        return userroles;
-    }
-    public void setUserroles(Set<userrole> userroles) {
-        this.userroles = userroles;
-    }
-    @Override
-    public String toString() {
-        return "role [id=" + id + ", rolename=" + rolename + ", userroles=" + userroles + "]";
+    private Long roleId;
+    private String roleName;
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "role")
+    private Set<UserRole> userRoles=new HashSet<>();
+
+
+    public Role() {
     }
 
-    
-    
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public Role(Long roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 }
